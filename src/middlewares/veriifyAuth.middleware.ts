@@ -4,25 +4,26 @@ import "dotenv/config"
 
 const verifyAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     let auth = req.headers.authorization
-
+    
     if(!auth){
         return res.status(401).json({ message: "Invalid token!" })
     }
 
-    auth.split(' ')[1]
+    auth = auth.split(' ')[1]
 
-    jwt.verify(auth, process.env.SECRET_KEY as string, (error, decoded) => {
+    return jwt.verify(auth, process.env.SECRET_KEY as string, (error, decoded: any) => {
         if(error){
             return res.status(401).json({ message: error.message })
         }
 
-        // req.user = {
-        //     id: decoded.sub,
-        //     isAdm: decoded.isAdm
-        // }
+        req.user = {
+            id: decoded.sub as string,
+            adm: decoded.adm
+        }
+
+        return next()
     })
 
-    return next()
 }
 
 export default verifyAuthMiddleware

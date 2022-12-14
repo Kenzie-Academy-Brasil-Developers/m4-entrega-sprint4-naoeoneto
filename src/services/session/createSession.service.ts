@@ -20,9 +20,14 @@ const createSessionService = async (data: IUserLogin): Promise<Array<number | st
     }
 
     const token = jwt.sign(
-        { isAdm: loggedUser.isAdm },
+        { 
+            adm: loggedUser.isAdm 
+        },
         process.env.SECRET_KEY as string,
-        { subject: loggedUser.id, expiresIn: "24h" }
+        { 
+            subject: loggedUser.id as string, 
+            expiresIn: "24h"
+        }
     )
 
     return [200, token]

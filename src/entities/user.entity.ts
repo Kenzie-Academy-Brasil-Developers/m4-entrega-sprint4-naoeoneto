@@ -30,5 +30,5 @@ export class User {
     @BeforeInsert()
     hashPassword(){
         this.password = hashSync(this.password, 10)
-    } 
+    }
 }

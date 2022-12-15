@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import "dotenv/config"
 
-const verifyAuthMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+const verifyAuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     let auth = req.headers.authorization
     
     if(!auth){
@@ -18,9 +18,10 @@ const verifyAuthMiddleware = async (req: Request, res: Response, next: NextFunct
 
         req.user = {
             id: decoded.sub as string,
-            adm: decoded.adm
+            adm: decoded.adm,
+            active: decoded.active
         }
-
+        
         return next()
     })
 

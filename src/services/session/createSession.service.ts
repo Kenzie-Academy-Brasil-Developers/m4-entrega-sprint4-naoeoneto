@@ -4,24 +4,25 @@ import { IUserLogin } from "../../interfaces/users/users.interfaces"
 import "dotenv/config"
 import { compare } from "bcryptjs"
 import jwt from "jsonwebtoken"
+import { AppError } from "../../errors"
 
-const createSessionService = async (data: IUserLogin): Promise<Array<number | string>> => {
+const createSessionService = async (data: IUserLogin): Promise<string> => {
     const userRep = AppDataSource.getRepository(User)
 
-    const loggedUser = await userRep.findOneByOrFail({ email: data.email })
+    const loggedUser = await userRep.findOneBy({ email: data.email })
     if(!loggedUser){
-        return [401, "Wrong email/password!"]
+       throw new AppError("Wrong email/password!", 401)
     }
-
+    
     const comparePassword = await compare(data.password, loggedUser.password)
-
     if(!comparePassword){
-        return [401, "Wrong email/password!"]
+        throw new AppError("Wrong email/password", 401)
     }
 
     const token = jwt.sign(
         { 
-            adm: loggedUser.isAdm 
+            adm: loggedUser.isAdm,
+            active: loggedUser.isActive
         },
         process.env.SECRET_KEY as string,
         { 
@@ -30,7 +31,7 @@ const createSessionService = async (data: IUserLogin): Promise<Array<number | st
         }
     )
 
-    return [200, token]
+    return token
 }
 
 export default createSessionService

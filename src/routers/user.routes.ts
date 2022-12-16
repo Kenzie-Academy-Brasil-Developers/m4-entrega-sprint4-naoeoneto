@@ -5,7 +5,7 @@ import verifyUserIsAdmMiddleware from "../middlewares/verifyUserIsAdm.middleware
 import verifyUserIsOwnerMiddleware from "../middlewares/verifyUserIsOwner.middleware";
 import verifyAuthMiddleware from "../middlewares/verifyAuth.middleware";
 import validateDataMiddleware from "../middlewares/validateData.middleware";
-import { createUserSchema } from "../schemas/user.schema";
+import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
 import verifyIsActiveMiddleware from "../middlewares/verifyIsActive.middleware";
 
 const userRouter = Router()
@@ -13,6 +13,6 @@ const userRouter = Router()
 userRouter.post("", validateDataMiddleware(createUserSchema), verifyEmailExistsMiddleware, createUserController)
 userRouter.get("",  verifyAuthMiddleware, verifyUserIsAdmMiddleware, listUsersController)
 userRouter.delete("/:id", verifyAuthMiddleware, verifyIsActiveMiddleware, verifyUserIsOwnerMiddleware, deleteUserController)
-// userRouter.patch("/:id", verifyAuthMiddleware, verifyUserIsOwnerMiddleware, listUsersController)
+userRouter.patch("/:id", validateDataMiddleware(updateUserSchema), )
 
 export default userRouter

@@ -1,14 +1,16 @@
 import { v4 } from "uuid"
 import * as yup from "yup"
+import { SchemaOf } from "yup"
+import { IUserRequest, IUser, IUserUpdate } from "../interfaces/users/users.interfaces"
 
-const createUserSchema = yup.object().shape({
+const createUserSchema: SchemaOf<IUserRequest> = yup.object().shape({
     name: yup.string().required(),
     email: yup.string().email().required(),
     password: yup.string().required(),
     isAdm: yup.boolean().required()
 })
 
-const returnedUserSchema = yup.object().shape({
+const returnedUserSchema: SchemaOf<IUser> = yup.object().shape({
     id: yup.string().uuid().default(() => v4()). transform(() => v4()),
     name: yup.string(),
     email: yup.string().email(),
@@ -18,6 +20,10 @@ const returnedUserSchema = yup.object().shape({
     updatedAt: yup.date()
 })
 
-const listUsersSchema = yup.array(returnedUserSchema)
+const updateUserSchema: SchemaOf<IUserUpdate> = yup.object().shape({
+    name: yup.string().notRequired(),
+    email: yup.string().notRequired(),
+    password: yup.string().notRequired()
+})
 
-export { createUserSchema, returnedUserSchema, listUsersSchema }
+export { createUserSchema, returnedUserSchema, updateUserSchema }

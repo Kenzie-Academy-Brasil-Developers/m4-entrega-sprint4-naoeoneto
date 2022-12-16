@@ -14,17 +14,6 @@ export interface IUser {
     updatedAt: Date
 }
 
-export interface IUserResponse {
-    id: string | undefined
-    name: string | undefined
-    email: string | undefined
-    isAdm?: boolean | undefined
-    isActive: boolean | undefined
-    createdAt: Date | undefined
-    updatedAt: Date | undefined
-    deletedAt?: Date | undefined
-}
-
 export interface IUserLogin {
     email: string
     password: string

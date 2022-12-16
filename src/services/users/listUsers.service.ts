@@ -1,8 +1,8 @@
 import AppDataSource from "../../data-source"
 import { User } from "../../entities/user.entity"
-import { IUserResponse } from "../../interfaces/users/users.interfaces"
+import { IUser } from "../../interfaces/users/users.interfaces"
 
-const listUsersService = async (): Promise<IUserResponse[] | undefined> => {
+const listUsersService = async (): Promise<IUser[] | undefined> => {
     const userRep = AppDataSource.getRepository(User)
     
     const list = await userRep.find()

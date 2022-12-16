@@ -1,8 +1,8 @@
 import "reflect-metadata"
 import express from "express"
+import "express-async-errors"
 import userRouter from "./routers/user.routes"
 import sessionRouter from "./routers/session.routes"
-import "express-async-errors"
 import { handleError } from "./errors"
 
 const app = express()

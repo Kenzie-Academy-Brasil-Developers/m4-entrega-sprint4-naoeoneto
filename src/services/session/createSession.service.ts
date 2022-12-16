@@ -11,12 +11,12 @@ const createSessionService = async (data: IUserLogin): Promise<string> => {
 
     const loggedUser = await userRep.findOneBy({ email: data.email })
     if(!loggedUser){
-       throw new AppError("Wrong email/password!", 401)
+        throw new AppError("Wrong email/password", 403)
     }
     
     const comparePassword = await compare(data.password, loggedUser.password)
     if(!comparePassword){
-        throw new AppError("Wrong email/password", 401)
+        throw new AppError("Wrong email/password", 403)
     }
 
     const token = jwt.sign(

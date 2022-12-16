@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createUserController, deleteUserController, listUsersController } from "../controllers/users/user.controller";
+import { createUserController, deleteUserController, listUsersController, updateUserController } from "../controllers/users/user.controller";
 import verifyEmailExistsMiddleware from "../middlewares/verifyEmailExists.middleware";
 import verifyUserIsAdmMiddleware from "../middlewares/verifyUserIsAdm.middleware";
 import verifyUserIsOwnerMiddleware from "../middlewares/verifyUserIsOwner.middleware";
@@ -12,7 +12,7 @@ const userRouter = Router()
 
 userRouter.post("", validateDataMiddleware(createUserSchema), verifyEmailExistsMiddleware, createUserController)
 userRouter.get("",  verifyAuthMiddleware, verifyUserIsAdmMiddleware, listUsersController)
-userRouter.delete("/:id", verifyAuthMiddleware, verifyIsActiveMiddleware, verifyUserIsOwnerMiddleware, deleteUserController)
-userRouter.patch("/:id", validateDataMiddleware(updateUserSchema), )
+userRouter.delete("/:id", verifyAuthMiddleware, verifyIsActiveMiddleware, deleteUserController)
+userRouter.patch("/:id", verifyAuthMiddleware, verifyIsActiveMiddleware, validateDataMiddleware(updateUserSchema), updateUserController)
 
 export default userRouter
